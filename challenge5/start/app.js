@@ -21,10 +21,9 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 // Set up socket.io
 var io = require('socket.io').listen(server);
 
-
 // Handle socket traffic
 io.sockets.on('connection', function (socket) {
-
+    
     // Set the nickname property for a given client
     socket.on('nick', function(nick) {
         socket.set('nickname', nick);
