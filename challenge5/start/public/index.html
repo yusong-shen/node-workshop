@@ -6,12 +6,19 @@
     <script>
         var socket = io.connect();
         socket.on('chat', function (data) {
-            $('textarea').val($('textarea').val()+data.message+'\n');
+            var msg = data.nick+': '+data.message;
+            $('textarea').val($('textarea').val()+msg+'\n');
         });
 
         // Handle UI
         $(function() {
             $('button').on('click', function() {
+                // Set nickname
+                $('#nick').on('click', function() {
+                    socket.emit('nick', $('#nickText').val());
+                });
+
+                // Send chat message   
                 console.log($('input').val());
                 socket.emit('chat', {
                     message:$('input').val()
@@ -22,6 +29,10 @@
 </head>
 <body>
     <h1>Simple Chat</h1>
+    <p>
+        <input id="nickText" type="text" placeholder="e.g. MissFunky1981"/>
+        <button id="nick">Set Nickname</button>
+    </p>    
     <textarea style="height:300px;width:500px;"></textarea>
     <p>
         <input type="text"/>
